@@ -1,21 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-	<title>trust by crrusader</title>
-        <link rel="shortcut icon" href="favicon.jpg">
-        <style>
-            * {
-                padding: 0;
-                margin: 0;
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>獲取天氣數據</title>
+    <style>
+        #main{
+            width: 600px;
+            height: 400px;
+            margin:0 auto;
+        }
+    </style>
+  </head>
+  <body>
+
+    <div id="main"></div>
+
+    <script src='js/jquery-3.1.0.min.js'></script>
+    <script src='js/echarts.js'></script>
+    <script>
+    $(function () {
+        $.ajax({
+            type: 'get',
+            url: 'http://api.openweathermap.org/data/2.5/forecast?id=1796236&appid=2ee59362b8f63a8035d4a2deae4ee521',
+            dataType: 'json',
+            success: function ( data ) {
+                //測試數據
+                var useData = data.list;
+                var maxT = [];
+                var minT = [];
+                var month = [];
+                for(var i = 0;i < useData.length; i++ ){
+                    maxT[i] = parseInt((useData[i].main.temp_max-32)*5/9);
+                    minT[i] = parseInt((useData[i].main.temp_min-32)*5/9);
+                    month[i] = useData[i].dt_txt.substr(5,5);
+                }
+
+
+                //繪製折線圖
+                var myChart = echarts.init(document.getElementById('main'));
+
+                var option = {
+                    title: {
+                        text: '上海市未来5天的天气预报'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['高溫','低溫']
+                    },
+                    xAxis: {
+                        data: month
+                    },
+                    yAxis: {
+                        min:130,
+                        scale:true
+                    },
+                    series: [{
+                        name: '高溫',
+                        type: 'line',
+                        data: maxT
+                    },{
+                        name: '低溫',
+                        type: 'line',
+                        data: minT
+                    }]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
             }
-			object {
-				height: 1009px;
-			}
-        </style>
-    </head>
-    <body>
-    <!-- <object width="100%" height="100%" data="1.bat" type="application/x-oleobject"></object> -->
-    <object width="100%"  data="./1.php" type="text/javascript"></object>
-    </body>
+        })
+    })
+    </script>
+  </body>
 </html>
