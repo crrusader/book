@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>獲取天氣數據</title>
     <style>
         #main{
@@ -23,7 +22,7 @@
         $.ajax({
             type: 'get',
             url: 'http://api.openweathermap.org/data/2.5/forecast?id=1796236&appid=2ee59362b8f63a8035d4a2deae4ee521',
-            dataType: 'json',
+            dataType: 'jsonp',
             success: function ( data ) {
                 //測試數據
                 var useData = data.list;
