@@ -10,5 +10,5 @@ var timer = setInterval(function () {
 },1000)
 
 setTimeout(function () {
-    window.location = 'welcome.html';
+    window.location = 'main.html';
 },5000)
